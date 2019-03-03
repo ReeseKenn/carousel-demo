@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <style>
+    #images{
+      display: flex;
+      align-items: flex-start;
+      transition: transform 0.5s;
+    }
+    #images > img{
+
+    }
+    .window{
+      width:300px;
+      overflow:hidden;
+    }
+    .red{
+      color: red;
+    }
+  </style>
+  <title>Document</title>
+</head>
+<body>
+  <div class="window">
+    <div id="images">
+      <img src="https://dummyimage.com/300x200/ae34c9/fff" alt="">
+      <img src="https://dummyimage.com/300x200/151659/fff" alt="">
+      <img src="https://dummyimage.com/300x200/8ac734/fff" alt="">
+    </div>
+   </div>
+   <span id="buttons">
+     <button>第1张</button>
+     <button>第2张</button>
+     <button>第3张</button>
+   </span>
+
+   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+   <script type="text/javascript">
+
+     var allButtons = $('#buttons > button')
+
+     for (let i=0;i < allButtons.length;i++)
+     {
+       $(allButtons[i]).on('click',function(x){
+          var index = $(x.currentTarget).index()
+          var px = index * -300
+          $('#images').css({
+            transform:'translate('+px+'px)'
+          })
+          n = index
+          activebutton(allButtons.eq(n))
+       })
+     }
+
+     var n = 0;
+     var size = allButtons.length
+     playSlide(n%size)
+
+     var timerId = setTimer
+      $('.window').on('mouseenter',function(){
+        window.clearInterval(timerId)
+      })
+      $('.window').on('mouseleave',function(){
+        timerId = setTimer()
+      })
+      function setTimer(){
+        return setInterval(()=>{
+          n += 1
+          playSlide(n%size)
+       },3000)
+      }
+      function playSlide(index){
+        allButtons.eq(index).trigger('click')
+      }
+      function activebutton($button){
+        $button.addClass('red').siblings('.red').removeClass('red')
+      }
+   </script>
+</body>
+</html>
