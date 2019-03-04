@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .window{
+    width: 300px;
+    height: 200px;
+    margin: 20px auto;
+    overflow: hidden;
+  }
+  .images{
+    position: relative;
+  }
+  .images > img {
+    width: 100%;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+  }
+  .images > img.current{
+    left: 0;
+    transform: translateX(0);
+    z-index: 1;
+  }
+  .images > img.leave{
+    transform: translateX(-100%);
+    z-index: 1;
+  }
+  .images > img.enter{
+    transform: translateX(100%);
+  }
+
+
+  </style>
+  <title>无缝轮播</title>
+
+</head>
+<body>
+  <div class="window">
+    <div class="images">
+      <img src="https://dummyimage.com/300x200/ae34c9/fff&text=1" alt="" width="300" height="200">
+      <img src="https://dummyimage.com/300x200/151659/fff&text=2" alt="" width="300" height="200">
+      <img src="https://dummyimage.com/300x200/8ac734/fff&text=3" alt="" width="300" height="200">
+      <!-- <img src="https://dummyimage.com/300x200/21cbde/fff&text=4" alt="" width="300" height="200">
+      <img src="https://dummyimage.com/300x200/b03c3c/fff&text=5" alt="" width="300" height="200"> -->
+    </div>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script >
+  $('.images > img:nth-child(1)').addClass('current')
+  $('.images > img:nth-child(2)').addClass('enter')
+  $('.images > img:nth-child(3)').addClass('enter')
+  let n = 1;
+  setInterval(function(){
+    n = n%3
+    if(n===0){
+      $('.images > img:nth-child(3)').removeClass('current').addClass('leave').one('transitionend',(e)=>{
+        $(e.currentTarget).removeClass('leave').addClass('enter')
+      })
+      $('.images > img:nth-child(1)').removeClass('enter').addClass('current')
+    }else {
+      $(`.images > img:nth-child(${n})`).removeClass('current').addClass('leave').one('transitionend',(e)=>{
+        $(e.currentTarget).removeClass('leave').addClass('enter')
+      })
+      $(`.images > img:nth-child(${n+1})`).removeClass('enter').addClass('current')
+    }
+    n +=1
+  },3000)
+
+
+  </script>
+</body>
+</html>
