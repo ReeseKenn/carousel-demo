@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    *{margin:0;padding:0;}
+    *{box-sizing:border-box;}
+
+    .window{
+      width:300px;
+      height:200px;
+      margin:20px auto;
+      overflow:hidden;
+    }
+    .images{
+      display:flex;
+      transition:all 1s;
+    }
+    .images > img{
+      width:100%;
+      transition:add 1500ms;
+    }
+
+  </style>
+  <title>无缝轮播</title>
+</head>
+<body>
+  <div class="window">
+    <div id="slides" class="images">
+      <img src="https://dummyimage.com/300x200/ae34c9/fff&text=1" alt="" width="300" height="200">
+      <img src="https://dummyimage.com/300x200/151659/fff&text=2" alt="" width="300" height="200">
+      <img src="https://dummyimage.com/300x200/8ac734/fff&text=3" alt="" width="300" height="200">
+      <!-- <img src="https://dummyimage.com/300x200/21cbde/fff&text=4" alt="" width="300" height="200">
+      <img src="https://dummyimage.com/300x200/b03c3c/fff&text=5" alt="" width="300" height="200"> -->
+    </div>
+  </div>
+  <div id="buttonWrapper" style="text-align:center;">
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    let $buttons = $('#buttonWrapper>button')
+    let $slides = $('#slides')
+    let $images = $slides.children('img')
+    let current = 0
+
+    makeFakeSlides()
+
+    $slides.css({transform:'translateX(-300px)'})
+    bindEvents()
+
+    function bindEvents(){
+      $('#buttonWrapper').on('click','button',function(e){
+        let $button = $(e.currentTarget)
+        let index = $button.index()
+        if(current === $buttons.length - 1 && index === 0){
+          $slides.css({transform:`translateX(${-($buttons.length+1)*300}px)`})
+            .one('transitionend',function(){
+              $slides.hide()
+                .offset()
+              $slides.css({transform:`translateX(${-(index+1)*300}px)`}).show()
+            })
+
+        }else if(current === 0 && index === $buttons.length - 1){
+          $slides.css({transform:'translateX(0px)'})
+            .one('transitionend',function(){
+              $slides.hide()
+                .offset()
+              $slides.css({transform:`translateX(${-(index+1)*300}px)`}).show()
+            })
+        }else{
+          $slides.css({transform:`translateX(${-(index+1)*300}px)`})
+        }
+        current = index
+      })
+
+
+    }
+
+
+    function makeFakeSlides(){
+      let $firstCopy = $images.eq(0).clone(true)
+      let $lastCopy = $images.eq($images.length-1).clone(true)
+
+      $slides.append($firstCopy)
+      $slides.prepend($lastCopy)
+    }
+
+  </script>
+</body>
+</html>
