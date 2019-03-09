@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1078752_kv1qi6uii3q.css">
+  <style>
+    #images{
+      display: flex;
+      align-items: flex-start;
+      transition: transform 0.5s;
+    }
+    #images > img{
+
+    }
+    .wrapper{
+
+      max-width: 920px;
+      margin: 0 auto;
+      -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.4);
+      -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.4);
+      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.4);
+      margin-top: 50px;
+    }
+    .window{
+      width:920px;
+      overflow:hidden;
+      margin: 0 auto;
+    }
+    .red{
+      color: red;
+    }
+    #buttons{
+      width: 920px;
+      height: 50px;
+      background: #eee;
+      text-align: center;
+    }
+    #buttons > div{
+      display: inline-block;
+      margin: 0 ;
+      height: 50px;
+      width:50px;
+      color: #666;
+      font-size: 30px;
+      line-height: 50px;
+      position: relative;
+    }
+    #buttons >div::after{
+      content: '';
+      width:1px;
+      background: white;
+      height:50px;
+      display: inline-block;
+      position: absolute;
+      left:42px;
+    }
+    .line{
+      width:1px;
+      background: white;
+      height:50px;
+      display: inline-block;
+      position: absolute;
+      right: 60px;
+    }
+    .iconfont{
+      margin-bottom: 10px;
+    }
+    .icon-teccomputerde:before,.icon-laptop:before,.icon-mobile-phone:before,.icon-i-copy:before{
+      position: absolute;
+      left:0;
+    }
+    #buttons > div.active{
+      color: #7dc5eb;
+    }
+  </style>
+  <title>Document</title>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="window">
+      <div id="images">
+        <img src="https://demo.tutorialzine.com/2009/11/beautiful-apple-gallery-slideshow/img/sample_slides/macbook.jpg" alt="图片">
+        <img src="https://demo.tutorialzine.com/2009/11/beautiful-apple-gallery-slideshow/img/sample_slides/iphone.jpg" alt="图片">
+        <img src="https://demo.tutorialzine.com/2009/11/beautiful-apple-gallery-slideshow/img/sample_slides/imac.jpg" alt="图片">
+        <img src="https://demo.tutorialzine.com/2009/11/beautiful-apple-gallery-slideshow/img/sample_slides/info.jpg" alt="图片">
+      </div>
+     </div>
+     <div id="buttons">
+       <div class="iconfont icon-teccomputerde"><div class="line"></div></div>
+       <div class="iconfont icon-laptop"></div>
+       <div class="iconfont icon-mobile-phone"></div>
+       <div class="iconfont icon-i-copy"></div>
+       <!-- <div class="margin"></div> -->
+     </div>
+  </div>
+   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+   <script type="text/javascript">
+
+     var allButtons = $('#buttons > div')
+
+     for (let i=0;i < allButtons.length;i++)
+     {
+       $(allButtons[i]).on('click',function(x){
+          var index = $(x.currentTarget).index()
+          var px = index * -920
+          $('#images').css({
+            transform:'translate('+px+'px)'
+          })
+          n = index
+          activebutton(allButtons.eq(n))
+       })
+     }
+
+     var n = 0;
+     var size = allButtons.length
+     playSlide(n%size)
+
+     var timerId = setTimer
+      $('.window').on('mouseenter',function(){
+        window.clearInterval(timerId)
+      })
+      $('.window').on('mouseleave',function(){
+        timerId = setTimer()
+      })
+      function setTimer(){
+        return setInterval(()=>{
+          n += 1
+          playSlide(n%size)
+       },3000)
+      }
+      function playSlide(index){
+        allButtons.eq(index).trigger('click')
+      }
+      function activebutton($div){
+        $div.addClass('active').siblings('.active').removeClass('active')
+      }
+   </script>
+</body>
+</html>
